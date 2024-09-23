@@ -34,7 +34,13 @@ public class PlanningPokerTest {
             new PlanningPoker().identifyExtremes(list);
         }).isInstanceOf(IllegalArgumentException.class);
     }
-
+/*
+a list with exactly two elements and a list with more than two elements.
+Why two?
+- A list with two elements is the smallest for which the method should work.
+There is a boundary between a list with one element (which does not work) and two elements (which does work).
+" bugs love boundaries, so she decides to also have a dedicated test for it "
+*/
     @Test
     void twoEstimates() {
         List<Estimate> list = Arrays.asList(
@@ -47,7 +53,9 @@ public class PlanningPokerTest {
         assertThat(devs)
                 .containsExactlyInAnyOrder("Mauricio", "Frank");
     }
-
+/*
+    Ver que este test es para validar el orden del output, después será eliminado por property based testing
+*/
     // this test was later deleted by Eleanor, as the property based testing
     // replaces this one.
     @Test
@@ -63,6 +71,12 @@ public class PlanningPokerTest {
         assertThat(devs)
                 .containsExactlyInAnyOrder("Mauricio", "Arie");
     }
+
+    /*
+    Aquí es donde se usa property based testing
+    Ver que los test anteriores no hubieran cachado el defecton con el ELSE if
+    Descomentar el else y ver que truena en estimatesInAnyOrder
+     */
 
     @Property
     void estimatesInAnyOrder(@ForAll("estimates") List<Estimate> estimates) {
