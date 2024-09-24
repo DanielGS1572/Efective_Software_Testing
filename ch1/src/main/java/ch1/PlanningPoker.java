@@ -29,7 +29,7 @@ public class PlanningPoker {
             }
         }
 
-        if(lowestEstimate.equals(highestEstimate))
+        if(lowestEstimate.equals(highestEstimate))      //Considera si el valor más bajo es igual al mas alto
             return Collections.emptyList();
 
         return Arrays.asList(

@@ -79,14 +79,16 @@ There is a boundary between a list with one element (which does not work) and tw
      */
 
     @Property
-    void estimatesInAnyOrder(@ForAll("estimates") List<Estimate> estimates) {
-
+    void estimatesInAnyOrder(@ForAll("estimates") List<Estimate> estimates) {       //estimates es el nombre del metodo que generará los datos random
+//[A] Se genera una lista de estimates y se meten valores que se espera que se cachen al llamar identifyExtremes
+        //System.out.println(estimates.size());
         estimates.add(new Estimate("MrLowEstimate", 1));
         estimates.add(new Estimate("MsHighEstimate", 100));
         Collections.shuffle(estimates);
 
         List<String> dev = new PlanningPoker().identifyExtremes(estimates);
 
+        //A pesar de que se hizo shuffle y datos aleatorios se tienen dos valores que son conocidos y es lo que se espera que se tenga por resultado
         assertThat(dev)
                 .containsExactlyInAnyOrder("MrLowEstimate", "MsHighEstimate");
     }
@@ -94,10 +96,10 @@ There is a boundary between a list with one element (which does not work) and tw
     @Provide
     Arbitrary<List<Estimate>> estimates() {
         Arbitrary<String> names = Arbitraries.strings().withCharRange('a', 'z').ofLength(5);
-        Arbitrary<Integer> values = Arbitraries.integers().between(2, 99);
+        Arbitrary<Integer> values = Arbitraries.integers().between(2, 99); //Aqui no se definen por completo si no que en [A] les pasa los valores min/max
 
         Arbitrary<Estimate> estimates = Combinators.combine(names, values)
-                .as((name, value) -> new Estimate(name, value));
+                .as((name, value) -> new Estimate(name, value));            //hace la combinación de names y values
 
         return estimates.list().ofMinSize(1);
     }
